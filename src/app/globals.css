@@ -1,26 +1,94 @@
-@import "tailwindcss";
+﻿@import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+--background: #ffffff;
+--foreground: #171717;
+--font-display: "Sour Gummy", cursive;
+--font-playful: "Sour Gummy", cursive;
+--font-body: "Sour Gummy", cursive;
+--font-sans: "Sour Gummy", cursive;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+--color-background: var(--background);
+--color-foreground: var(--foreground);
+--font-sans: "Sour Gummy", cursive;
+--font-display: "Sour Gummy", cursive;
+--font-playful: "Sour Gummy", cursive;
+--font-body: "Sour Gummy", cursive;
+--font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+/* Custom color palette */
+--color-primary-50: #FFE6E9;
+--color-primary-100: #FFC2C8;
+--color-primary-200: #FF9BA4;
+--color-primary-500: #FF4757;
+--color-primary-600: #E6404E;
+--color-primary-700: #C73745;
+
+--color-secondary-50: #E6F2FF;
+--color-secondary-100: #C2E0FF;
+--color-secondary-200: #9DCDFF;
+--color-secondary-500: #1E90FF;
+--color-secondary-600: #1A82E6;
+--color-secondary-700: #166EC7;
+
+--color-accent-50: #FFF8CC;
+--color-accent-100: #FFF099;
+--color-accent-200: #FFE866;
+--color-accent-500: #FFD400;
+--color-accent-600: #E6BF00;
+--color-accent-700: #C7A600;
+
+--color-success-50: #E6FFF4;
+--color-success-100: #C0FFE6;
+--color-success-200: #99FFD8;
+--color-success-500: #2ED573;
+--color-success-600: #29C368;
+--color-success-700: #23A957;
+
+--color-pinkish-50: #FFE6EC;
+--color-pinkish-100: #FFC2CF;
+--color-pinkish-200: #FF9BAF;
+--color-pinkish-500: #FF6B81;
+--color-pinkish-600: #E66074;
+--color-pinkish-700: #C75563;
+
+/* Custom border radius */
+--radius-2xl: 1rem;
+--radius-3xl: 1.5rem;
+
+/* Custom shadows */
+--shadow-playful: 0 10px 20px -5px rgba(0,0,0,0.08), 0 6px 10px -6px rgba(0,0,0,0.08);
+--shadow-colorful: 0 12px 24px -6px rgba(255,71,87,0.25);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+}
+@media (prefers-color-scheme: dark) {
+:root {
+  --background: #0a0a0a;
+  --foreground: #000000;
+}
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+background: var(--background);
+color: var(--foreground);
+font-family: var(--font-sans);
+}
+
+/* Utility classes for font families */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-playful {
+  font-family: var(--font-playful);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
 }

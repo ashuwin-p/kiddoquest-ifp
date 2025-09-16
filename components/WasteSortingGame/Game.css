@@ -1,0 +1,322 @@
+/* Base styles */
+.game-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, #a8e6cf 0%, #dcedc1 100%);
+  overflow: hidden;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* Instructions modal */
+.instructions-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.instructions-content {
+  background-color: #fdffab;
+  padding: 30px;
+  border-radius: 20px;
+  border: 5px solid #ffaaa5;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.instructions-content h2 {
+  color: #ff6b6b;
+  margin-top: 0;
+  font-size: 28px;
+}
+
+.instructions-content p {
+  color: #333;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin: 20px 0;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-size: 18px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 3px solid #ffaaa5;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.instructions-content ul {
+  text-align: left;
+  margin-bottom: 25px;
+  color: #333;
+  font-size: 16px;
+}
+
+.instructions-content li {
+  margin-bottom: 10px;
+}
+
+/* Game area */
+.game-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.game-header {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 10;
+}
+
+.score, .timer {
+  background-color: #fdffab;
+  padding: 10px 20px;
+  border-radius: 20px;
+  border: 3px solid #ffaaa5;
+  font-size: 20px;
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.mute-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+/* Bins */
+.bins-container {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  z-index: 5;
+}
+
+.bin {
+  width: 150px;
+  height: 200px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.bin:hover {
+  transform: scale(1.05);
+}
+
+.bio-bin {
+  background-color: #4CAF50;
+  border: 5px solid #2E7D32;
+}
+
+.non-bio-bin {
+  background-color: #f44336;
+  border: 5px solid #c62828;
+}
+
+/* Trash items */
+.trash-item {
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: grab;
+  position: absolute;
+  z-index: 2;
+}
+
+.trash-item:active {
+  cursor: grabbing;
+}
+
+/* End screen */
+.end-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fdffab;
+  padding: 30px;
+  border-radius: 20px;
+  border: 5px solid #ffaaa5;
+  text-align: center;
+  z-index: 100;
+}
+
+.end-screen h2 {
+  color: #ff6b6b;
+  margin-top: 0;
+  font-size: 32px;
+}
+
+.end-screen p {
+  color: #333;
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+/* Buttons */
+.start-button, .restart-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.start-button:hover, .restart-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:active, .restart-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.start-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .bins-container {
+    gap: 20px;
+  }
+
+  .bin {
+    width: 120px;
+    height: 160px;
+    font-size: 20px;
+  }
+
+  .trash-item {
+    width: 60px;
+    height: 60px;
+  }
+
+  .score, .timer {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bins-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bin {
+    width: 100px;
+    height: 140px;
+    font-size: 18px;
+  }
+
+  .instructions-content {
+    padding: 20px;
+    margin: 10px;
+  }
+}
+
+.correct-feedback {
+  background-color: #4CAF50;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  animation: feedbackAnimation 1s ease-out;
+  z-index: 1000;
+}
+
+.incorrect-feedback {
+  background-color: #f44336;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-weight: bold;
+  animation: feedbackAnimation 1s ease-out;
+  z-index: 1000;
+}
+
+@keyframes feedbackAnimation {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+} 
+
+.start-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #45a049;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
