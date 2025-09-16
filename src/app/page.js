@@ -1,11 +1,4 @@
-﻿"use client";
-import dynamic from "next/dynamic";
-
-const GameCards = dynamic(() => import("../../components/GameCards.jsx"), {
-	ssr: false,
-});
-
-export default function Home() {
+﻿export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-primary-50 via-secondary-50 to-accent-50 flex flex-col items-center justify-center p-6">
       <div className="text-center space-y-8 max-w-4xl">
@@ -40,14 +33,6 @@ export default function Home() {
             <span className="relative z-10"> Register</span>
             <div className="absolute inset-0 bg-gradient-to-r from-secondary-500 to-accent-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
           </a>
-
-          <a 
-            href="/games" 
-            className="group relative px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-playful text-xl rounded-2xl shadow-playful transform hover:scale-105 transition-all duration-300 hover:shadow-lg"
-          >
-            <span className="relative z-10"> Play Games</span>
-            <div className="absolute inset-0 bg-gradient-to-r from-accent-500 to-secondary-500 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-          </a>
         </div>
 
         {/* Features Preview */}
@@ -70,11 +55,6 @@ export default function Home() {
             <p className="font-body text-gray-600">Track progress and celebrate milestones</p>
           </div>
         </div>
-      </div>
-
-      {/* Quick Games Grid Preview */}
-      <div className="w-full max-w-6xl mt-12">
-        <GameCards />
       </div>
     </main>
   );
