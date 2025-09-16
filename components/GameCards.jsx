@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import './GameCards.css';
 
 const games = [
@@ -29,27 +29,27 @@ const games = [
   },
   {
     id: 4,
-    title: 'Save the Oceans',
-    icon: '��',
-    description: 'Discover how to protect marine life and reduce pollution',
-    color: '#2196F3',
-    path: '/save-oceans'
+    title: 'Memory Game',
+    icon: '🧠',
+    description: 'Strengthen memory by matching pairs in a timed challenge.',
+    color: '#8E44AD',
+    path: '/memory-game'
   },
   {
     id: 5,
-    title: 'Fire Escape Drill',
-    icon: '🔥',
-    description: 'Practice emergency procedures and safety measures',
+    title: 'Lock Guesser',
+    icon: '🔐',
+    description: 'Guess the combo with higher/lower hints.',
     color: '#FF9800',
-    path: '/fire-escape'
+    path: '/lock-guesser'
   }
 ];
 
 const GameCards = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const handlePlayGame = (path) => {
-    navigate(path);
+    router.push(path);
   };
 
   return (

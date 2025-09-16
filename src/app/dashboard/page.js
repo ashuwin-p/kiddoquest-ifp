@@ -208,6 +208,37 @@ export default function DashboardPage() {
 												Play
 											</a>
 										</>
+									) : i === 3 ? (
+										<>
+											<div className="h-28 bg-gradient-to-br from-purple-50 to-accent-50 rounded-2xl mb-3 flex items-center justify-center">
+												<span
+													role="img"
+													aria-label="Memory Game"
+													style={{ fontSize: 40 }}
+												>
+													🧠
+												</span>
+											</div>
+											<h3 className="font-semibold mb-1">Memory Game</h3>
+											<p className="text-sm text-gray-600 mb-3">
+												Match pairs to strengthen memory.
+											</p>
+											<a
+												href="/memory-game"
+												className="mt-auto px-3 py-2 rounded-xl bg-purple-500 hover:bg-purple-600 text-white text-center"
+											>
+												Play
+											</a>
+										</>
+									) : i === 4 ? (
+										<>
+											<div className="h-28 bg-gradient-to-br from-yellow-50 to-accent-50 rounded-2xl mb-3 flex items-center justify-center">
+												<span role="img" aria-label="Lock Guesser" style={{ fontSize: 40 }}>🔐</span>
+											</div>
+											<h3 className="font-semibold mb-1">Lock Guesser</h3>
+											<p className="text-sm text-gray-600 mb-3">Guess the combo with higher/lower hints.</p>
+											<a href="/lock-guesser" className="mt-auto px-3 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-white text-center">Play</a>
+										</>
 									) : (
 										<>
 											<div className="h-28 bg-gradient-to-br from-secondary-50 to-accent-50 rounded-2xl mb-3" />
