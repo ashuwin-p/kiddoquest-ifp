@@ -42,6 +42,14 @@ const games = [
     description: 'Guess the combo with higher/lower hints.',
     color: '#FF9800',
     path: '/lock-guesser'
+  },
+  {
+    id: 6,
+    title: 'Word Scramble',
+    icon: '🔤',
+    description: 'Unscramble words to test your vocabulary and spelling skills!',
+    color: '#6366F1',
+    path: '/word-scramble-game'
   }
 ];
 

@@ -239,6 +239,30 @@ export default function DashboardPage() {
 											<p className="text-sm text-gray-600 mb-3">Guess the combo with higher/lower hints.</p>
 											<a href="/lock-guesser" className="mt-auto px-3 py-2 rounded-xl bg-yellow-500 hover:bg-yellow-600 text-white text-center">Play</a>
 										</>
+									) : i === 5 ? (
+										<>
+											<div className="h-28 bg-gradient-to-br from-indigo-50 to-accent-50 rounded-2xl mb-3 flex items-center justify-center">
+												<span
+													role="img"
+													aria-label="Word Scramble"
+													style={{ fontSize: 40 }}
+												>
+													🔤
+												</span>
+											</div>
+											<h3 className="font-semibold mb-1">
+												Word Scramble
+											</h3>
+											<p className="text-sm text-gray-600 mb-3">
+												Unscramble words to test your vocabulary and spelling skills!
+											</p>
+											<a
+												href="/word-scramble-game"
+												className="mt-auto px-3 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white text-center"
+											>
+												Play
+											</a>
+										</>
 									) : (
 										<>
 											<div className="h-28 bg-gradient-to-br from-secondary-50 to-accent-50 rounded-2xl mb-3" />
