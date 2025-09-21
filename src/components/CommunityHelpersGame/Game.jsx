@@ -1,12 +1,16 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import "./Game.css";
 
 export default function CommunityHelpersGame() {
+	// Force refresh to ensure styling changes are visible
+	console.log('Community Helpers Game v5.0 - External CSS file loaded with enhanced borders');
+	
 	const [state, setState] = useState({
 		role: null,
 		score: 0,
-		high: typeof window !== 'undefined' ? Number(localStorage.getItem('ch_high') || 0) : 0,
+		high: 0, // Initialize to 0, will be set on client side
 		timer: null,
 		time: 0,
 		task: null,
@@ -17,6 +21,14 @@ export default function CommunityHelpersGame() {
 
 	const timerRef = useRef(null);
 	const playAreaRef = useRef(null);
+
+	// Load high score from localStorage on client side
+	useEffect(() => {
+		if (typeof window !== 'undefined') {
+			const savedHigh = Number(localStorage.getItem('ch_high') || 0);
+			setState(prev => ({ ...prev, high: savedHigh }));
+		}
+	}, []);
 
 	// Auto-assign roles instead of manual selection
 	const assignNextRole = () => {
@@ -39,6 +51,7 @@ export default function CommunityHelpersGame() {
 			const newScore = Math.max(0, prev.score + delta);
 			const newHigh = newScore > prev.high ? newScore : prev.high;
 			
+			// Only update localStorage on client side
 			if (typeof window !== 'undefined' && newScore > prev.high) {
 				localStorage.setItem('ch_high', newHigh);
 			}
@@ -101,6 +114,7 @@ export default function CommunityHelpersGame() {
 			score: 0,
 			high: 0
 		}));
+		// Only access localStorage on client side
 		if (typeof window !== 'undefined') {
 			localStorage.removeItem('ch_high');
 		}
@@ -151,7 +165,9 @@ export default function CommunityHelpersGame() {
 			}
 		];
 		
-		const task = tasks[Math.floor(Math.random() * tasks.length)];
+		// Use a deterministic selection based on role index to avoid hydration issues
+		const taskIndex = state.roleIndex % tasks.length;
+		const task = tasks[taskIndex];
 		
 		if (playAreaRef.current) {
 			if (task.type === 'fire') {
@@ -229,6 +245,7 @@ export default function CommunityHelpersGame() {
 		let saved = 0;
 		let waterUsed = 0;
 		const maxWater = 8;
+		let taskCompleted = false;
 
 		startTimer(12, () => {
 			if (fireLevel > 0) setScore(-3);
@@ -237,7 +254,7 @@ export default function CommunityHelpersGame() {
 
 		const handleWaterClick = () => {
 			if (waterUsed >= maxWater) return;
-			if (state.taskCompleted) return;
+			if (taskCompleted) return;
 			
 			waterUsed++;
 			const waterBtn = document.getElementById('water-btn');
@@ -245,7 +262,8 @@ export default function CommunityHelpersGame() {
 				waterBtn.textContent = `💧 Water (${maxWater - waterUsed} left)`;
 			}
 			
-			const reduce = Math.round(Math.random() * 3) + 1;
+			// Use deterministic values based on water used to avoid hydration issues
+			const reduce = (waterUsed % 3) + 1; // 1, 2, or 3
 			fireLevel = Math.max(0, fireLevel - reduce);
 			const pct = (fireLevel / 10) * 100;
 			
@@ -256,7 +274,8 @@ export default function CommunityHelpersGame() {
 			const fires = document.getElementById('fires');
 			if (fires) fires.textContent = '🔥'.repeat(Math.max(0, flames));
 			
-			if (Math.random() > 0.6) {
+			// Deterministic rescue chance based on water used
+			if (waterUsed % 3 === 0) { // Every 3rd water throw
 				saved += 1;
 				const savedEl = document.getElementById('saved');
 				if (savedEl) savedEl.textContent = saved;
@@ -264,12 +283,14 @@ export default function CommunityHelpersGame() {
 			}
 			
 			if (fireLevel === 0) {
+				taskCompleted = true;
 				setState(prev => ({ ...prev, taskCompleted: true }));
 				setScore(15);
 				showEndMessage('Excellent! Fire extinguished and ' + saved + ' people rescued! +15 pts');
 			}
 			
 			if (waterUsed >= maxWater && fireLevel > 0) {
+				taskCompleted = true;
 				setState(prev => ({ ...prev, taskCompleted: true }));
 				setScore(-5);
 				showEndMessage('Out of water! Fire still burning. Better luck next time!');
@@ -280,7 +301,12 @@ export default function CommunityHelpersGame() {
 		setTimeout(() => {
 			const waterBtn = document.getElementById('water-btn');
 			if (waterBtn) {
-				waterBtn.addEventListener('click', handleWaterClick);
+				// Remove any existing listeners first
+				waterBtn.replaceWith(waterBtn.cloneNode(true));
+				const newWaterBtn = document.getElementById('water-btn');
+				if (newWaterBtn) {
+					newWaterBtn.addEventListener('click', handleWaterClick);
+				}
 			}
 		}, 100);
 	};
@@ -292,16 +318,19 @@ export default function CommunityHelpersGame() {
 			{ q: 'Person stuck in elevator shaft. Rescue method?', opts: ['Rope and harness', 'Water rescue', 'Chemical extinguisher'], ans: 0, hint: 'Need specialized climbing equipment.' }
 		];
 		
-		const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+		const scenarioIndex = state.roleIndex % scenarios.length;
+		const scenario = scenarios[scenarioIndex];
 		let answered = false;
 
 		setTimeout(() => {
 			const choicesDiv = document.getElementById('rescue-choices');
 			if (choicesDiv) {
+				console.log('Creating rescue choices with enhanced borders');
 				scenario.opts.forEach((o, i) => {
 					const d = document.createElement('div');
 					d.className = 'choice';
 					d.textContent = o;
+					console.log('Created choice element with class:', d.className);
 					d.addEventListener('click', () => {
 						if (answered) return;
 						answered = true;
@@ -344,7 +373,8 @@ export default function CommunityHelpersGame() {
 			{ q: 'Radioactive material found. Protection needed?', opts: ['Lead shielding suit', 'Firefighter gear', 'Raincoat'], ans: 0, hint: 'Radiation requires specialized shielding.' }
 		];
 		
-		const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+		const scenarioIndex = state.roleIndex % scenarios.length;
+		const scenario = scenarios[scenarioIndex];
 		let answered = false;
 
 		setTimeout(() => {
@@ -396,7 +426,8 @@ export default function CommunityHelpersGame() {
 			{ q: 'Person on narrow ledge. Ladder placement?', opts: ['Directly below person', '5 feet to the side', '10 feet away'], ans: 0, hint: 'Direct placement allows easiest rescue.' }
 		];
 		
-		const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+		const scenarioIndex = state.roleIndex % scenarios.length;
+		const scenario = scenarios[scenarioIndex];
 		let answered = false;
 
 		setTimeout(() => {
@@ -453,7 +484,8 @@ export default function CommunityHelpersGame() {
 			{ sym: 'Stomach ache, vomiting', opts: ['Give food', 'Check for food poisoning', 'Ignore it'], ans: 1, hint: 'Food poisoning needs proper diagnosis and treatment.' },
 			{ sym: 'Dizzy, pale, weak', opts: ['Give sugar', 'Check blood pressure', 'Tell them to walk'], ans: 1, hint: 'Could be low blood sugar or blood pressure issue.' }
 		];
-		const c = cases[Math.floor(Math.random() * cases.length)];
+		const caseIndex = state.roleIndex % cases.length;
+		const c = cases[caseIndex];
 
 		if (playAreaRef.current) {
 			playAreaRef.current.innerHTML = `
@@ -523,7 +555,8 @@ export default function CommunityHelpersGame() {
 			{ q: 'A student is very shy and never participates. How to help?', opts: ['Force them to speak', 'Encourage gently & create safe space', 'Ignore them'], ans: 1 },
 			{ q: 'Class is restless on a hot day. What works?', opts: ['Continue as normal', 'Take a break & do fun activity', 'Make them sit still'], ans: 1 }
 		];
-		const a = activities[Math.floor(Math.random() * activities.length)];
+		const activityIndex = state.roleIndex % activities.length;
+		const a = activities[activityIndex];
 
 		if (playAreaRef.current) {
 			playAreaRef.current.innerHTML = `
@@ -700,64 +733,6 @@ export default function CommunityHelpersGame() {
 			<footer className="mt-3 text-center text-gray-600 text-sm">
 				Made for learning — adapt or expand the mini-quests as you like!
 			</footer>
-
-			<style jsx>{`
-				.fire-row {
-					display: flex;
-					gap: 8px;
-					align-items: center;
-				}
-				.progress {
-					height: 16px;
-					background: #eef6ff;
-					border-radius: 10px;
-					margin-top: 8px;
-					overflow: hidden;
-				}
-				.progress > i {
-					display: block;
-					height: 100%;
-					background: linear-gradient(90deg, #1e90ff, #3ad0ff);
-					width: 0%;
-				}
-				.choices {
-					display: flex;
-					flex-direction: column;
-					gap: 8px;
-				}
-				.choice {
-					padding: 10px;
-					border-radius: 10px;
-					border: 1px solid #e6eef8;
-					cursor: pointer;
-					transition: all 0.2s;
-				}
-				.choice:hover {
-					background: #f8fafc;
-				}
-				.choice.correct {
-					background: rgba(45, 179, 74, 0.08);
-					border-color: rgba(45, 179, 74, 0.2);
-				}
-				.choice.wrong {
-					background: rgba(255, 107, 107, 0.08);
-					border-color: rgba(255, 107, 107, 0.2);
-				}
-				.btn {
-					display: inline-block;
-					padding: 8px 12px;
-					border-radius: 8px;
-					background: #1e90ff;
-					color: #fff;
-					text-decoration: none;
-					cursor: pointer;
-					border: none;
-					transition: background 0.2s;
-				}
-				.btn:hover {
-					background: #0066cc;
-				}
-			`}</style>
 		</div>
 	);
 }
