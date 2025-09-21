@@ -128,7 +128,7 @@ export default function DashboardPage() {
 							Games
 						</h2>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-							{Array.from({ length: 6 }).map((_, i) => (
+							{Array.from({ length: 7 }).map((_, i) => (
 								<div
 									key={i}
 									className="bg-white/80 backdrop-blur-sm border rounded-3xl p-4 flex flex-col shadow-playful hover:shadow-colorful transition-transform duration-200 hover:-translate-y-1"
@@ -259,6 +259,30 @@ export default function DashboardPage() {
 											<a
 												href="/word-scramble-game"
 												className="mt-auto px-3 py-2 rounded-xl bg-indigo-500 hover:bg-indigo-600 text-white text-center"
+											>
+												Play
+											</a>
+										</>
+									) : i === 6 ? (
+										<>
+											<div className="h-28 bg-gradient-to-br from-orange-50 to-accent-50 rounded-2xl mb-3 flex items-center justify-center">
+												<span
+													role="img"
+													aria-label="Community Helpers"
+													style={{ fontSize: 40 }}
+												>
+													👥
+												</span>
+											</div>
+											<h3 className="font-semibold mb-1">
+												Community Helpers
+											</h3>
+											<p className="text-sm text-gray-600 mb-3">
+												Play as Firefighter, Doctor, or Teacher in mini-quests that teach responsibility!
+											</p>
+											<a
+												href="/community-helpers"
+												className="mt-auto px-3 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-center"
 											>
 												Play
 											</a>
