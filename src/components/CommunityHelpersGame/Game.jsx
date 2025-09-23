@@ -15,6 +15,7 @@ export default function CommunityHelpersGame() {
 		time: 0,
 		task: null,
 		roleIndex: 0,
+		taskIndex: 0, // Separate index for tasks within each role
 		roles: ['fire', 'doctor', 'teacher'],
 		taskCompleted: false,
 	});
@@ -39,6 +40,7 @@ export default function CommunityHelpersGame() {
 			...prev,
 			role: newRole,
 			roleIndex: newRoleIndex,
+			taskIndex: 0, // Reset task index for new role
 			taskCompleted: false
 		}));
 		
@@ -105,7 +107,38 @@ export default function CommunityHelpersGame() {
 	}, [state.time]);
 
 	const nextTask = () => {
-		assignNextRole();
+		// Always increment task index and cycle through tasks
+		setState(prev => {
+			const newTaskIndex = prev.taskIndex + 1;
+			const currentRole = prev.role;
+			
+			// If we've completed all tasks for current role, move to next role
+			const tasksPerRole = {
+				'fire': 4,    // fire, rescue, hazmat, ladder
+				'doctor': 8,  // 8 medical cases
+				'teacher': 10 // 10 teaching scenarios
+			};
+			
+			if (newTaskIndex >= tasksPerRole[currentRole]) {
+				// Move to next role and reset task index
+				const nextRoleIndex = (prev.roleIndex + 1) % prev.roles.length;
+				const nextRole = prev.roles[nextRoleIndex];
+				return {
+					...prev,
+					role: nextRole,
+					roleIndex: nextRoleIndex,
+					taskIndex: 0,
+					taskCompleted: false
+				};
+			} else {
+				// Stay in same role, just increment task
+				return {
+					...prev,
+					taskIndex: newTaskIndex,
+					taskCompleted: false
+				};
+			}
+		});
 	};
 
 	const resetScore = () => {
@@ -165,9 +198,8 @@ export default function CommunityHelpersGame() {
 			}
 		];
 		
-		// Use a deterministic selection based on role index to avoid hydration issues
-		const taskIndex = state.roleIndex % tasks.length;
-		const task = tasks[taskIndex];
+		// Use task index to cycle through tasks within the role
+		const task = tasks[state.taskIndex % tasks.length];
 		
 		if (playAreaRef.current) {
 			if (task.type === 'fire') {
@@ -318,8 +350,7 @@ export default function CommunityHelpersGame() {
 			{ q: 'Person stuck in elevator shaft. Rescue method?', opts: ['Rope and harness', 'Water rescue', 'Chemical extinguisher'], ans: 0, hint: 'Need specialized climbing equipment.' }
 		];
 		
-		const scenarioIndex = state.roleIndex % scenarios.length;
-		const scenario = scenarios[scenarioIndex];
+		const scenario = scenarios[state.taskIndex % scenarios.length];
 		let answered = false;
 
 		setTimeout(() => {
@@ -373,8 +404,7 @@ export default function CommunityHelpersGame() {
 			{ q: 'Radioactive material found. Protection needed?', opts: ['Lead shielding suit', 'Firefighter gear', 'Raincoat'], ans: 0, hint: 'Radiation requires specialized shielding.' }
 		];
 		
-		const scenarioIndex = state.roleIndex % scenarios.length;
-		const scenario = scenarios[scenarioIndex];
+		const scenario = scenarios[state.taskIndex % scenarios.length];
 		let answered = false;
 
 		setTimeout(() => {
@@ -426,8 +456,7 @@ export default function CommunityHelpersGame() {
 			{ q: 'Person on narrow ledge. Ladder placement?', opts: ['Directly below person', '5 feet to the side', '10 feet away'], ans: 0, hint: 'Direct placement allows easiest rescue.' }
 		];
 		
-		const scenarioIndex = state.roleIndex % scenarios.length;
-		const scenario = scenarios[scenarioIndex];
+		const scenario = scenarios[state.taskIndex % scenarios.length];
 		let answered = false;
 
 		setTimeout(() => {
@@ -484,8 +513,7 @@ export default function CommunityHelpersGame() {
 			{ sym: 'Stomach ache, vomiting', opts: ['Give food', 'Check for food poisoning', 'Ignore it'], ans: 1, hint: 'Food poisoning needs proper diagnosis and treatment.' },
 			{ sym: 'Dizzy, pale, weak', opts: ['Give sugar', 'Check blood pressure', 'Tell them to walk'], ans: 1, hint: 'Could be low blood sugar or blood pressure issue.' }
 		];
-		const caseIndex = state.roleIndex % cases.length;
-		const c = cases[caseIndex];
+		const c = cases[state.taskIndex % cases.length];
 
 		if (playAreaRef.current) {
 			playAreaRef.current.innerHTML = `
@@ -555,8 +583,7 @@ export default function CommunityHelpersGame() {
 			{ q: 'A student is very shy and never participates. How to help?', opts: ['Force them to speak', 'Encourage gently & create safe space', 'Ignore them'], ans: 1 },
 			{ q: 'Class is restless on a hot day. What works?', opts: ['Continue as normal', 'Take a break & do fun activity', 'Make them sit still'], ans: 1 }
 		];
-		const activityIndex = state.roleIndex % activities.length;
-		const a = activities[activityIndex];
+		const a = activities[state.taskIndex % activities.length];
 
 		if (playAreaRef.current) {
 			playAreaRef.current.innerHTML = `
@@ -632,6 +659,13 @@ export default function CommunityHelpersGame() {
 	useEffect(() => {
 		assignNextRole();
 	}, []);
+
+	// Start task when role or task index changes
+	useEffect(() => {
+		if (state.role) {
+			startTaskForRole(state.role);
+		}
+	}, [state.role, state.taskIndex]);
 
 	// Cleanup timer on unmount
 	useEffect(() => {
