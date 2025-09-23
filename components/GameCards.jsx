@@ -50,6 +50,22 @@ const games = [
     description: 'Unscramble words to test your vocabulary and spelling skills!',
     color: '#6366F1',
     path: '/word-scramble-game'
+  },
+  {
+    id: 7,
+    title: 'Community Helpers',
+    icon: '🧑\u200d🚒',
+    description: 'Match helpers with their tools and roles in the community.',
+    color: '#10B981',
+    path: '/community-helpers'
+  },
+  {
+    id: 8,
+    title: 'Healthy Habits',
+    icon: '🥦',
+    description: 'Tap good habits, avoid bad ones, and score before time runs out!',
+    color: '#F59E0B',
+    path: '/healthy-habits-game'
   }
 ];
 

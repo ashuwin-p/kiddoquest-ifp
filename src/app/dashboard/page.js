@@ -128,7 +128,7 @@ export default function DashboardPage() {
 							Games
 						</h2>
 						<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-							{Array.from({ length: 7 }).map((_, i) => (
+							{Array.from({ length: 8 }).map((_, i) => (
 								<div
 									key={i}
 									className="bg-white/80 backdrop-blur-sm border rounded-3xl p-4 flex flex-col shadow-playful hover:shadow-colorful transition-transform duration-200 hover:-translate-y-1"
@@ -283,6 +283,28 @@ export default function DashboardPage() {
 											<a
 												href="/community-helpers"
 												className="mt-auto px-3 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-center"
+											>
+												Play
+											</a>
+										</>
+									) : i === 7 ? (
+										<>
+											<div className="h-28 bg-gradient-to-br from-amber-50 to-accent-50 rounded-2xl mb-3 flex items-center justify-center">
+												<span
+													role="img"
+													aria-label="Healthy Habits"
+													style={{ fontSize: 40 }}
+												>
+													🥦
+												</span>
+											</div>
+											<h3 className="font-semibold mb-1">Healthy Habits</h3>
+											<p className="text-sm text-gray-600 mb-3">
+												Tap good habits, avoid bad ones, and beat the timer!
+											</p>
+											<a
+												href="/healthy-habits-game"
+												className="mt-auto px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white text-center"
 											>
 												Play
 											</a>
