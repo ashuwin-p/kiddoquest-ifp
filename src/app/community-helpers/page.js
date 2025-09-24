@@ -1,6 +1,6 @@
 "use client";
 
-import CommunityHelpersGame from "../../components/CommunityHelpersGame/Game";
+import CommunityHelpersGame from "../../../components/CommunityHelpersGame/Game";
 
 export default function CommunityHelpersPage() {
 	return (
